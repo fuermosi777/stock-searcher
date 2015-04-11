@@ -10,6 +10,7 @@ from django.db.models import Avg, Count
 from django.template import Context
 from operator import __or__ as OR
 from yahoo_finance import Share
+from datetime import datetime, timedelta
 
 # Create your views here.
 def home(request):
@@ -19,7 +20,7 @@ def home(request):
 		if ticker:
 			return HttpResponseRedirect("result?ticker=%s"%ticker)
 		else:
-			msg = "Oh snap! You haven't type anything!"
+			msg = "Oh snap! You haven't type anything."
 
 	context = {
 		"msg": msg
@@ -35,8 +36,17 @@ def result(request):
 
 	stock = Share(ticker)
 
+	if not stock.get_open():
+		msg = "Sorry. The company you are trying to find is not existed."
+
+	start = (datetime.now() - timedelta(days=365)).strftime('%Y-%m-%d')
+	end = datetime.now().strftime('%Y-%m-%d')
+	historical = stock.get_historical(start, end)
+
 	context = {
 		"msg": msg,
-		"open": stock.get_open()
+		"ticker": ticker,
+		"stock": stock,
+		"historical": unicode(historical)
 	}
 	return render(request, "result.html", context)

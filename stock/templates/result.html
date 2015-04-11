@@ -1,6 +1,90 @@
 {% extends "base.html" %} {% block content %}
 <div class="container">
-    <h1>Result</h1>
-    <p>Open: <span>{{ open }}</span></p>
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Result - "{{ ticker }}"</h1>
+        </div>
+    </div>
+    {% if msg %}
+    <div class="row">
+        <!-- ######## -->
+        <div class="alert alert-danger" role="alert">{{ msg }}</div>
+        <p>
+            <a href="/" class="btn btn-danger">&larr; Go back</a>
+        </p>
+    </div>
+    {% else %}
+    <!-- ######## -->
+    <div class="row">
+        <div class="col-sm-12">
+            <p>Symbol: {{ stock.get_info.symbol }}</p>
+        </div>
+        <div class="col-sm-6">
+            <table class="table table-striped">
+                <tr>
+                    <td>Open</td>
+                    <td>{{ stock.get_open }}</td>
+                </tr>
+                <tr>
+                    <td>Price</td>
+                    <td>{{ stock.get_price }}</td>
+                </tr>
+                <tr>
+                    <td>Change</td>
+                    <td>{{ stock.get_change }}</td>
+                </tr>
+                <tr>
+                    <td>Volume</td>
+                    <td>{{ stock.get_volume }}</td>
+                </tr>
+                <tr>
+                    <td>Prev close</td>
+                    <td>{{ stock.get_prev_close }}</td>
+                </tr>
+                <tr>
+                    <td>Avg. daily volumn</td>
+                    <td>{{ stock.get_avg_daily_volume }}</td>
+                </tr>
+                <tr>
+                    <td>Stock exchange</td>
+                    <td>{{ stock.get_stock_exchange }}</td>
+                </tr>
+                <tr>
+                    <td>Market cap</td>
+                    <td>{{ stock.get_market_cap }}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-sm-6">
+            <canvas id="stockPriceChart" width="400" height="400"></canvas>
+            <script>
+            $(function() {
+            	console.log("{{ historical }}");
+                var data = {
+                    labels: ["January", "February", "March", "April", "May", "June", "July"],
+                    datasets: [{
+                        label: "My First dataset",
+                        fillColor: "rgba(220,220,220,0.2)",
+                        strokeColor: "rgba(220,220,220,1)",
+                        pointColor: "rgba(220,220,220,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        data: [65, 59, 80, 81, 56, 55, 40]
+                    }]
+                };
+                var options = {
+                	scaleShowGridLines : true
+                }
+                var ctx = document.getElementById("stockPriceChart").getContext("2d");
+                var myNewChart = new Chart(ctx).Line(data, options);
+            });
+            </script>
+        </div>
+        <div class="col-sm-12">
+            <a href="" class="btn btn-warning">Export as CSV file</a>
+        </div>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
