@@ -19,7 +19,7 @@
         <div class="col-sm-12">
             <p>Symbol: {{ stock.get_info.symbol }}</p>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <table class="table table-striped">
                 <tr>
                     <td>Open</td>
@@ -55,26 +55,39 @@
                 </tr>
             </table>
         </div>
-        <div class="col-sm-6">
-            <canvas id="stockPriceChart" width="400" height="400"></canvas>
+        <div class="col-sm-8">
+            <canvas id="stockPriceChart" width="600" height="400"></canvas>
             <script>
             $(function() {
-            	console.log("{{ historical }}");
+                var text = "{{ historical|safe }}";
+                text = text.replace(/'/g, '"');
+                var historical = JSON.parse(text);
+                var labels = [];
+                var points = [];
+                for (var i = 0; i < historical.length; i = i + 10) {
+                    var obj = historical[i];
+                    labels.push(obj['Date']);
+                    points.push(obj['Open']);
+                };
                 var data = {
-                    labels: ["January", "February", "March", "April", "May", "June", "July"],
+                    labels: labels,
                     datasets: [{
-                        label: "My First dataset",
+                        label: "Stock price",
                         fillColor: "rgba(220,220,220,0.2)",
-                        strokeColor: "rgba(220,220,220,1)",
+                        strokeColor: "rgba(157, 7, 8, 1)",
                         pointColor: "rgba(220,220,220,1)",
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
                         pointHighlightStroke: "rgba(220,220,220,1)",
-                        data: [65, 59, 80, 81, 56, 55, 40]
+                        data: points
                     }]
                 };
                 var options = {
-                	scaleShowGridLines : true
+                    scaleShowGridLines: true,
+                    pointDot: true,
+                    datasetStroke: false,
+                    bezierCurve: true,
+                    bezierCurveTension: 0.1
                 }
                 var ctx = document.getElementById("stockPriceChart").getContext("2d");
                 var myNewChart = new Chart(ctx).Line(data, options);
