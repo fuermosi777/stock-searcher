@@ -2,6 +2,9 @@
 <div class="container">
     <h1>Stock search</h1>
     <p>Input the ticker symbol of the stock you want to search (e.g. "GOOG")</p>
+    {% if msg %}
+    <div class="alert alert-danger" role="alert">{{ msg }}</div>
+    {% endif %}
     <form method="POST">
         {% csrf_token %}
         <div class="form-group">

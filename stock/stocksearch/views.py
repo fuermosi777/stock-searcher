@@ -13,16 +13,22 @@ from yahoo_finance import Share
 
 # Create your views here.
 def home(request):
+	msg = None
 	if request.method == 'POST':
 		ticker = request.POST.get('ticker', None)
 		if ticker:
 			return HttpResponseRedirect("result?ticker=%s"%ticker)
 		else:
-			pass
+			msg = "Oh snap! You haven't type anything!"
 
-	context = {}
+	context = {
+		"msg": msg
+	}
 	return render(request, "home.html", context)
 
 def result(request):
-	context = {}
+	msg = None
+	context = {
+		"msg": msg
+	}
 	return render(request, "result.html", context)
