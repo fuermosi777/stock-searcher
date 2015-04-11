@@ -1,0 +1,15 @@
+{% extends "base.html" %} {% block content %}
+<div class="container">
+    <h1>Stock search</h1>
+    <p>Input the ticker symbol of the stock you want to search (e.g. "GOOG")</p>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <input type="text" name="ticker" class="form-control" placeholder="GOOG"/>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-default">Submit</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

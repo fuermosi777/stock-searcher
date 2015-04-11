@@ -1,0 +1,11 @@
+Django==1.8
+dj-database-url==0.3.0
+dj-static==0.0.6
+django-toolbelt==0.0.1
+gunicorn==19.3.0
+psycopg2==2.6
+pytz==2015.2
+simplejson==3.6.5
+static3==0.5.1
+wsgiref==0.1.2
+yahoo-finance==1.1.4
