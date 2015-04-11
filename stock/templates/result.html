@@ -64,7 +64,7 @@
                 var historical = JSON.parse(text);
                 var labels = [];
                 var points = [];
-                for (var i = 0; i < historical.length; i = i + 10) {
+                for (var i = historical.length - 1; i >= 0; i = i - 10) {
                     var obj = historical[i];
                     labels.push(obj['Date']);
                     points.push(obj['Open']);
@@ -95,6 +95,7 @@
             </script>
         </div>
         <div class="col-sm-12">
+            <a href="/" class="btn btn-danger">&larr; Go back</a>
             <a href="" class="btn btn-warning">Export as CSV file</a>
         </div>
     </div>
