@@ -28,7 +28,15 @@ def home(request):
 
 def result(request):
 	msg = None
+	try:
+		ticker = request.GET.get('ticker', None)
+	except:
+		raise Http404
+
+	stock = Share(ticker)
+
 	context = {
-		"msg": msg
+		"msg": msg,
+		"open": stock.get_open()
 	}
 	return render(request, "result.html", context)
